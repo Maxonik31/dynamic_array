@@ -1,4 +1,5 @@
 #include "DynamicArray.h"
+#include <stdexcept>
 
 DynamicArray::DynamicArray(size_t n) {
     size = n;
@@ -26,28 +27,24 @@ void DynamicArray::print() const {
 
 void DynamicArray::setter(size_t i, int value) {
     if (i >= size) {
-        std::cout << "индекс за границами массива";
-        abort();
+        throw std::out_of_range("Индекс за границами массива");
     }
     if (value < -100 or value > 100) {
-        std::cout << "значение должно быть от -100 до 100";
-        abort();
+        throw std::invalid_argument("Значение должно быть от -100 до 100");
     }
     arr[i] = value;
 }
 
 int DynamicArray::getter(size_t index) const {
     if (index >= size) {
-        std::cout << "индекс за границами массива";
-        abort();
+        throw std::out_of_range("Индекс за границами массива");
     }
     return arr[index];
 }
 
 void DynamicArray::append(int value) {
     if (value < -100 or value > 100) {
-        std::cout << "значение должно быть от -100 до 100";
-        abort();
+        throw std::invalid_argument("Значение должно быть от -100 до 100");
     }
     int* newArr = new int[size + 1];
 
