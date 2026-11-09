@@ -1,5 +1,6 @@
 #include "DynamicArray.h"
 #include <windows.h>
+#include <stdexcept>
 
 DynamicArray vvodDynamicArray() {
     size_t size;
@@ -48,6 +49,39 @@ int main() {
     arr1.summ(arr2);
     std::cout << "первый массив после сложения со вторым: " << "\n";
     arr1.print();
+
+    // ~~~Тестирование
+    std::cout << "ТЕСТИРОВАНИЕ ИСКЛЮЧЕНИЙ\n";
+
+    std::cout << "1. Тест std::invalid_argument на значение вне диапазона -100..100:\n";
+    try {
+        arr1.setter(0, 150); 
+        std::cout << "Исключение не сработало!\n"; 
+    } 
+    catch (const std::invalid_argument& e) {
+        std::cout << "Сработало исключение: " << e.what() << "\n";
+    }
+
+
+    std::cout << "\n2. Тест std::out_of_range на индекс за границами массива:\n";
+    try {
+        int val = arr1.getter(1000); 
+        std::cout << "Исключение не сработало!\n";
+    }
+    catch (const std::out_of_range& e) {
+        std::cout << "Сработало исключение: " << e.what() << "\n";
+    }
+
+
+    std::cout << "\n3. Тест std::bad_alloc на ошибку выделения памяти:\n";
+    try {
+        std::cout << "Попытка создать массив размером 10 триллионов элементов...\n";
+        DynamicArray huge_arr(10000000000000ULL); 
+        std::cout << "Исключение не сработало!\n";
+    } 
+    catch (const std::bad_alloc& e) {
+        std::cout << "Сработало исключение: " << e.what() << "\n";
+    }
     
     std::cin.ignore();
     std::cin.get();
